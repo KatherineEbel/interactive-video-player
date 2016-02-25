@@ -1,0 +1,23 @@
+/* Video Controls */
+
+#progress-bar {
+  display: none;
+  position: absolute;
+  left: 0;
+  bottom: 40px; 
+  width: 100%;
+}
+
+#play-pause {
+  @include configureControlWithImage(play-icon);
+  margin-right: auto;
+}
+
+#volume-toggle {
+  @include configureControlWithImage(volume-on-icon);
+}
+
+#fullscreen-toggle {
+  @include configureControlWithImage(fullscreen-icon);
+}
+
