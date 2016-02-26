@@ -1,95 +1,128 @@
-// JavaScript Document
-
 $(document).ready(function() {
   "use strict";
-  
-  var video = $("#video");
-  var buttonBar = $("#buttonbar");
-  var progress = $("#progress-bar");
-  var playButton = $("#play-pause");
-  var volumeToggle = $("#volume-toggle");
-  var fullScreenToggle = $("#fullscreen-toggle");
-  var subTitles = document.getElementById('subtitles');
+
+  var $video = $("#video");
+  var $videoContainer = $(".video-container");
+  var $buttonBar = $("#buttonbar");
+  var $progress = $("#progress-bar");
+  var $playButton = $("#play-pause");
+  var $videoTimer = $("#video-timer");
+  var $volumeToggle = $("#volume-toggle");
+  var $fullScreenToggle = $("#fullscreen-toggle");
+  var $textTrack = $("#text-track");
+  var capText = [];
+  var captions = document.getElementById('caption-text');
   var supportsMp4 = !!document.createElement('video').canPlayType('video/mp4');
   var supportsOgg = !!document.createElement('video').canPlayType('video/ogg');
-  
+
+  // remove default controls if supported
   if (supportsMp4 || supportsOgg) {
-    console.log("can play video");
-    video.removeAttr('controls');
-    buttonBar.css('display','flex');
-    progress.css('display','block');
+    $video.removeAttr('controls');
+    $buttonBar.css('display','flex');
+    $progress.css('display','block');
   } else {
-    console.log("can't play video"); 
+    console.log("can't play video");
   }
-  
-  video.get(0).addEventListener('loadedmetadata', function() {
-    var duration = video.get(0).duration;
-    progress.attr('max', duration);
+
+  // sync progress bar max to duration of video
+  $video[0].addEventListener('loadedmetadata', function() {
+    var duration = $video[0].duration;
+    $progress.attr('max', duration);
   });
-  
-  var trackElements = document.querySelectorAll("track");
-  // for each track element
-  trackElements[0].addEventListener("load", function() {
-    var textTrack = this.track; // gotcha: "this" is an HTMLTrackElement, not a TextTrack object
-    for (var j = 0; j < textTrack.cues.length; ++j) {
-      var cue = textTrack.cues[j];
-      var captions = document.getElementById('caption-text');
-      captions.innerHTML += cue.text;
-    }
-  });
-  
-  video.get(0).addEventListener('timeupdate', function() {
-    var vid = video.get(0);
-    var prog = progress.get(0);
-    if (!prog.getAttribute('max')) {
-      prog.setAttribute('max', vid.duration);
-      prog.value = vid.currentTime;
+
+  // update progress bar with currentTime
+  $video[0].addEventListener('timeupdate', function() {
+    /*var vid = video.get(0);*/
+    $videoTimer.text(timeFormat($video[0].currentTime));
+    if (!$progress[0].getAttribute('max')) {
+      $progress[0].setAttribute('max', this.duration);
+      $progress[0].value = this.currentTime;
     } else {
-      prog.value = vid.currentTime; 
+      $progress[0].value = this.currentTime;
     }
   });
-  
+
+  /*Format timer label for video */
+  var timeFormat = function(seconds){
+	var m = Math.floor(seconds / 60) < 10 ? '0' + Math.floor(seconds / 60) : Math.floor(seconds / 60);
+	var s = Math.floor(seconds - (m * 60)) < 10 ? '0' + Math.floor(seconds - (m * 60)) : Math.floor(seconds - (m * 60));
+	return m + ':' + s;
+};
+
+  // get track element
+  // var videoTrack = document.querySelectorAll("track");
+  // for each track element
+  // $textTrack[0].addEventListener("load", function() {
+  //   var track = this.track;
+  //   captions.innerHTML = "";
+  //   for (var i = 0; i < track.cues.length; i++) {
+  //     var span = document.createElement("span");
+  //     var cue = track.cues[i];
+  //     if (track.cues[i].id == 1) {
+  //       track.cues[i].text.replace('"', '');
+  //     }
+  //     span.innerHTML += cue.text;
+  //     captions.appendChild(span);
+  //   }
+  //   var firstCue = track.cues[0].text.replace('&nbsp;', '');
+  //   console.log($("span:contains('" + firstCue + "')"));
+  //   $("span:contains('" + firstCue + "')").addClass('currentCaption');
+  // });
+
+  // change text color on cue changes
+  $textTrack[0].track.oncuechange = function() {
+       var cue = this.activeCues[0];
+       var id = cue.id;
+       var spans = $('#transcript').children();
+       var currentCaption = spans[id - 1];
+       currentCaption.style.color = "blue";
+       console.log(spans[id - 1]);
+       cue.onexit = function () {
+         console.log("cue exit");
+         currentCaption.style.color = "black";
+       };
+  };
+
+
   /* Play clicked */
-  playButton.on( "click", function() {
+  $playButton.on( "click", function() {
     togglePlay();
   });
-  
+
+  /* Progress skip ahead*/
+  $progress[0].addEventListener("click", function(e) {
+    var position = (e.pageX - this.offsetLeft) / this.offsetWidth;
+    $video[0].currentTime = position * $video[0].duration;
+  });
+
   /* volume clicked */
-  volumeToggle.on("click", function() {
-    if (video.prop("muted")) {
-      volumeToggle.css('background-image','url(img/volume-on-icon.png)');
-      video.prop("muted", false);
+  $volumeToggle.on("click", function() {
+    if ($video.prop("muted")) {
+      $volumeToggle.css('background-image','url(img/volume-on-icon.png)');
+      $video.prop("muted", false);
     } else {
-      volumeToggle.css('background-image','url(img/volume-off-icon.png)');
-      video.prop("muted", true);
+      $volumeToggle.css('background-image','url(img/volume-off-icon.png)');
+      $video.prop("muted", true);
     }
   });
-  
+
   /* Fullscreen clicked */
-  fullScreenToggle.on( "click", function() {
+  $fullScreenToggle.on( "click", function() {
     console.log("clicked full screen button");
     toggleFullScreen();
   });
-  
+
   /* Mute sound and change button images for play/pause*/
   function togglePlay() {
-     if (video.get(0).paused) {
-        playButton.css('background-image','url(img/pause-icon.png)');
-        video.get(0).play();
+     if ($video[0].paused) {
+        $playButton.css('background-image','url(img/pause-icon.png)');
+        $video[0].play();
      } else {
-        playButton.css('background-image','url(img/play-icon.png)');
-        video.get(0).pause();
+        $playButton.css('background-image','url(img/play-icon.png)');
+        $video[0].pause();
      }
   }
 
-/*    function restart() {
-      video.get(0).currentTime = 0;
-    }
-
-    function skip(value) {
-      video.get(0).currentTime += value;
-    } */
-    
     /* Turn on full screen if available */
     function toggleFullScreen() {
       if (!document.fullscreenElement &&    // alternative standard method
@@ -103,8 +136,8 @@ $(document).ready(function() {
       } else if (document.documentElement.webkitRequestFullscreen) {
         document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
       }
-      $('.video-container').css({height: "100%"});
-      video.css({height: "100%"});
+      $videoContainer.css({height: "100%"});
+      $video.css({height: "100%"});
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -119,4 +152,3 @@ $(document).ready(function() {
   }
 
 });
-

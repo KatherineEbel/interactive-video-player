@@ -401,7 +401,7 @@ button {
   left: 0;
   bottom: 5px; }
 
-.caption {
+.caption-container {
   margin: 0 auto;
   width: 80%; }
 
@@ -414,7 +414,11 @@ button {
   width: 100%; }
 
 #play-pause {
-  background: no-repeat center url(../img/play-icon.png);
+  background: no-repeat center url(../img/play-icon.png); }
+
+#video-timer {
+  color: #fff;
+  margin-left: 10px;
   margin-right: auto; }
 
 #volume-toggle {
@@ -422,6 +426,9 @@ button {
 
 #fullscreen-toggle {
   background: no-repeat center url(../img/fullscreen-icon.png); }
+
+.current-caption {
+  color: blue; }
 
 /* Extends */
 #play-pause, #volume-toggle, #fullscreen-toggle {
