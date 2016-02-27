@@ -412,6 +412,9 @@ button {
   left: 0;
   bottom: 40px;
   width: 100%; }
+  @media (min-width: 1100px) {
+    #progress-bar {
+      bottom: 55px; } }
 
 #play-pause {
   background: no-repeat center url(../img/play-icon.png); }
@@ -429,6 +432,11 @@ button {
 
 .current-caption {
   color: blue; }
+
+::cue {
+  background-color: rgba(255, 255, 255, 0);
+  padding-top: 5px;
+  font-size: .55em; }
 
 /* Extends */
 #play-pause, #volume-toggle, #fullscreen-toggle {

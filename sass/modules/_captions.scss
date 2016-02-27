@@ -1,3 +1,9 @@
 .current-caption {
   color: blue;
 }
+
+::cue {
+  background-color: transparentize(#fff, 1);
+  padding-top: 5px;
+  font-size: .55em;
+}

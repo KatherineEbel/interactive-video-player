@@ -10,7 +10,6 @@ $(document).ready(function() {
   var $volumeToggle = $("#volume-toggle");
   var $fullScreenToggle = $("#fullscreen-toggle");
   var $textTrack = $("#text-track");
-  var capText = [];
   var captions = document.getElementById('caption-text');
   var supportsMp4 = !!document.createElement('video').canPlayType('video/mp4');
   var supportsOgg = !!document.createElement('video').canPlayType('video/ogg');
@@ -24,6 +23,14 @@ $(document).ready(function() {
     console.log("can't play video");
   }
 
+  // only show controls when hovering over video
+  $videoContainer.mouseenter(function() {
+    $buttonBar.fadeIn(400);
+  })
+  .mouseleave(function() {
+    $buttonBar.fadeOut(400);
+  });
+
   // sync progress bar max to duration of video
   $video[0].addEventListener('loadedmetadata', function() {
     var duration = $video[0].duration;
@@ -31,7 +38,7 @@ $(document).ready(function() {
   });
 
   // update progress bar with currentTime
-  $video[0].addEventListener('timeupdate', function() {
+  $video.on('timeupdate', function() {
     /*var vid = video.get(0);*/
     $videoTimer.text(timeFormat($video[0].currentTime));
     if (!$progress[0].getAttribute('max')) {
@@ -40,49 +47,46 @@ $(document).ready(function() {
     } else {
       $progress[0].value = this.currentTime;
     }
+    if ($video[0].ended) {
+      $video[0].pause();
+      $video[0].currentTime = 0;
+      $progress[0].value = 0;
+    }
+    if ($textTrack[0].track.oncuechange == undefined) {
+      changecuesForFirefox();
+    } else {
+      changeCues();
+    }
   });
 
-  /*Format timer label for video */
-  var timeFormat = function(seconds){
-	var m = Math.floor(seconds / 60) < 10 ? '0' + Math.floor(seconds / 60) : Math.floor(seconds / 60);
-	var s = Math.floor(seconds - (m * 60)) < 10 ? '0' + Math.floor(seconds - (m * 60)) : Math.floor(seconds - (m * 60));
-	return m + ':' + s;
-};
+  // work around for changing cues on firefox
+  function changecuesForFirefox() {
+    $( "span" ).toggleClass(function() {
+      var cue = $textTrack[0].track.activeCues[0];
+      var id = cue.id;
+      if ( $( this ).is( '#cue-' + id ) ) {
+        return $(this).css("color", "blue");
+      } else {
+        return $(this).css("color", "black");;
+      }
+    });
+  }
 
-  // get track element
-  // var videoTrack = document.querySelectorAll("track");
-  // for each track element
-  // $textTrack[0].addEventListener("load", function() {
-  //   var track = this.track;
-  //   captions.innerHTML = "";
-  //   for (var i = 0; i < track.cues.length; i++) {
-  //     var span = document.createElement("span");
-  //     var cue = track.cues[i];
-  //     if (track.cues[i].id == 1) {
-  //       track.cues[i].text.replace('"', '');
-  //     }
-  //     span.innerHTML += cue.text;
-  //     captions.appendChild(span);
-  //   }
-  //   var firstCue = track.cues[0].text.replace('&nbsp;', '');
-  //   console.log($("span:contains('" + firstCue + "')"));
-  //   $("span:contains('" + firstCue + "')").addClass('currentCaption');
-  // });
-
-  // change text color on cue changes
-  $textTrack[0].track.oncuechange = function() {
-       var cue = this.activeCues[0];
-       var id = cue.id;
-       var spans = $('#transcript').children();
-       var currentCaption = spans[id - 1];
-       currentCaption.style.color = "blue";
-       console.log(spans[id - 1]);
-       cue.onexit = function () {
-         console.log("cue exit");
-         currentCaption.style.color = "black";
-       };
-  };
-
+  // use cuechange event for browesers that support it
+  function changeCues() {
+    // change text color on cue changes
+    $textTrack[0].track.oncuechange = function() {
+        console.log("triggered");
+         var cue = this.activeCues[0];
+         var id = cue.id;
+         var spans = $('#transcript').children();
+         var currentCaption = spans[id - 1];
+         currentCaption.style.color = "blue";
+         cue.onexit = function () {
+           currentCaption.style.color = "black";
+         };
+    };
+  }
 
   /* Play clicked */
   $playButton.on( "click", function() {
@@ -108,7 +112,6 @@ $(document).ready(function() {
 
   /* Fullscreen clicked */
   $fullScreenToggle.on( "click", function() {
-    console.log("clicked full screen button");
     toggleFullScreen();
   });
 
@@ -136,8 +139,7 @@ $(document).ready(function() {
       } else if (document.documentElement.webkitRequestFullscreen) {
         document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
       }
-      $videoContainer.css({height: "100%"});
-      $video.css({height: "100%"});
+      setFullScreen();
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -148,7 +150,40 @@ $(document).ready(function() {
       } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
       }
+      exitFullscreen();
     }
   }
+
+  $(document).on('exitFullscreen', adjustElementsForExitFullScreen());
+
+  function setFullScreen() {
+    $videoContainer.css({height: "100%"});
+    $video.css({height: "100%"});
+    $textTrack.attr('kind', 'captions');
+    $textTrack[0].track.mode = "showing";
+    $('.caption-container').css('display', 'none');
+  }
+
+  function adjustElementsForExitFullScreen() {
+    $textTrack.attr('kind', 'metadata');
+    $textTrack[0].track.mode = "hidden";
+    $('.caption-container').css('display', 'block');
+  }
+
+  $(document).on( "keydown", function( event ) {
+      if (event.keyCode == 27) {
+      toggleFullScreen();
+      console.log("triggered");
+      }
+  });
+
+  /*Format timer label for video */
+  var timeFormat = function(seconds){
+      var m = Math.floor(seconds / 60) < 10 ? '0' + Math.floor(seconds / 60) : Math.floor(seconds / 60);
+      var s = Math.floor(seconds - (m * 60)) < 10 ? '0' + Math.floor(seconds - (m * 60)) : Math.floor(seconds - (m * 60));
+      var duration = $video[0].duration.toFixed(2);
+      return m + ':' + s + " / " + duration;
+  };
+
 
 });

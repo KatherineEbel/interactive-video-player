@@ -6,6 +6,9 @@
   left: 0;
   bottom: 40px;
   width: 100%;
+  @include mq(large) {
+    bottom: 55px;
+  }
 }
 
 #play-pause {

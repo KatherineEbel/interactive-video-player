@@ -1,7 +1,22 @@
 /* CSS Document */
 
 @mixin configureControlWithImage($image) {
-  background: no-repeat center url(#{$img-path}#{$image}.png); 
+  background: no-repeat center url(#{$img-path}#{$image}.png);
   @extend %control;
 }
 
+@mixin mq($break) {
+	@if $break == "medium" {
+			@media (min-width: $brkpoint-md + 1) {
+			@content;
+		}
+	}
+	@else if $break == "large" {
+		@media (min-width: $brkpoint-lg) {
+			@content;
+		}
+	}
+	@else  {
+		@error "Whoops! No value could be retrieved for `#{$break}`";
+	}
+}
