@@ -1,9 +1,5 @@
 /* CSS Document */
 
-@mixin configureControlWithImage($image) {
-  background: no-repeat center url(#{$img-path}#{$image}.png);
-  @extend %control;
-}
 
 @mixin mq($break) {
 	@if $break == "medium" {

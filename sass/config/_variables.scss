@@ -2,12 +2,49 @@
 //  Global variables
 ---------------------------------*/
 
+/* Fonts */
+
+$font-size--small      : 1.0em;
+$font-size--regular    : 1.2em;
+$font-size--large   : 1.5em;
+
+$font-weight--bold     : 700;
+
+$font-url--google        : 'https://fonts.googleapis.com/css?family=Raleway:400,600';
+$font-family--primary    : 'Raleway', sans-serif;
+
+// Import if Google Fonts URL is defined
+
+@if variable-exists(font-url--google) {
+  @import url($font-url--google);
+}
+
+/* Colors */
+$mortar        : #575059;
+$rose-bud      : #F5A18E;
+$old-gold      : #D2AF32;
+$pancho        : #F0D2B0;
+$button-color  : #FFF;
+
+$color-scheme: (
+	main-background    : $pancho,
+  caption-div        : darken($mortar, 20%),
+  transcript-div     : $mortar,
+	text               : $rose-bud,
+  transcript-text    : $pancho,
+	highlight-text     : $old-gold,
+	button-text        : $pancho,
+  button-color       : $button-color
+);
+
+
 $line-height: 1.6;
 
 $control-height: 1em;
 $control-width: 1em;
+$control-size--medium: 4em;
+$control-size--large: 7em;
 
-$img-path : "../img/";
 $video-path: "video/";
 
 // Break points

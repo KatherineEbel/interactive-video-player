@@ -1,6 +1,6 @@
 /* CSS Document */
 
-.video-container {
+#video-container {
   position: relative;
   margin: 0 auto;
   left: 0;
@@ -9,17 +9,3 @@
 }
 
 
-
-#buttonbar {
-  display: none;
-  justify-content: space-between;
-  position: absolute;
-  width: 100%;
-  left: 0;
-  bottom: 5px;
-}
-
-.caption-container {
-  margin: 0 auto;
-  width: 80%;
-}

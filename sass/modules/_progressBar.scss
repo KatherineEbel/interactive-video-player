@@ -1,0 +1,80 @@
+/* Progress Element Styles */
+
+#progress-bar {
+  display: none;
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  width: 100%;
+  max-height: .2em;
+  border-radius: 5px;
+  @include mq(medium) {
+    bottom: 38px;
+  }
+}
+
+progress[value] {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  
+  /* Get rid of default border in Firefox. */
+  border: none;
+  
+  /* Dimensions */
+  width: 250px;
+  height: 20px;
+}
+
+progress::-moz-progress-bar {
+  background-color: map-get($color-scheme, text);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+  border-radius: 5px;
+}
+
+progress[value]::-moz-progress-bar { 
+  background-image:
+    -moz-linear-gradient(
+      135deg, 
+      transparent 33%, 
+      rgba(0, 0, 0, 0.1) 33%, 
+      rgba(0, 0, 0, 0.1) 66%, 
+      transparent 66% 
+    ),
+    -moz-linear-gradient(
+      top, 
+      rgba(255, 255, 255, 0.25), 
+      rgba(0, 0, 0, 0.25)
+    ),
+    -moz-linear-gradient(
+      left, 
+      $pancho, 
+      $rose-bud
+    );
+
+  border-radius: 5px; 
+  background-size: 35px 20px, 100% 100%, 100% 100%; 
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: map-get($color-scheme, caption-div);
+  height: .5em;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress[value]::-webkit-progress-value {
+  background-image:
+	   -webkit-linear-gradient(-45deg,
+	                           transparent 33%, rgba(0, 0, 0, .1) 33%,
+	                           rgba(0,0, 0, .1) 66%, transparent 66%),
+	   -webkit-linear-gradient(top,
+	                           rgba(255, 255, 255, .25),
+	                           rgba(0, 0, 0, .25)),
+	   -webkit-linear-gradient(left, $pancho, $rose-bud);
+
+    border-radius: 2px;
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+

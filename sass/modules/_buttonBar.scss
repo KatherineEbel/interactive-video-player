@@ -1,0 +1,60 @@
+/* Video Controls */
+
+
+/* Main control div*/
+#buttonbar {
+  display: none;
+  justify-content: space-between;
+  align-items: baseline;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  background-color: map-get($color-scheme, caption-div);
+  @include mq(medium) {
+    font-size: $font-size--large;
+  }
+}
+
+.fa-play,
+.fa-pause,
+.fa-volume-up,
+.fa-volume-off,
+.fa-cc,
+.fa-expand,
+.fa-compress {
+  font-size: $font-size--regular;
+  margin-top: 5px;
+  margin-left: 15px;
+  color: map-get($color-scheme, transcript-text);
+}
+
+.fa-expand,
+.fa-compress {
+  margin-right: 20px; 
+}
+
+.fa-play-circle-o {
+  display: none;
+  font-size: $control-size--medium;
+  position: absolute;
+  top: 40%;
+  left: 42%;
+  z-index: 2147483647;
+  color: map-get($color-scheme, transcript-text);
+  @include mq(medium) {
+    left: 45%;
+    font-size: $control-size--large;
+  }
+}
+
+#video-timer {
+  font-size: $font-size--regular;
+  font-weight: $font-weight--bold;
+  color: map-get($color-scheme, transcript-text);
+  margin-left: 15px;
+  margin-right: auto;
+}
+
+
+

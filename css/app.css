@@ -5,6 +5,7 @@
  * 2. Prevent iOS text size adjust after orientation change, without disabling
  *    user zoom.
  */
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,600");
 html {
   font-family: sans-serif;
   /* 1 */
@@ -371,77 +372,161 @@ ul {
 /*--------------------------------
 //  Global variables
 ---------------------------------*/
+/* Fonts */
+/* Colors */
 /* CSS Document */
 /* CSS Document */
 /* Base Styles */
-div {
-  line-height: 1.6; }
+body {
+  background-color: #F0D2B0;
+  height: 100vh; }
 
 video {
+  height: 100%;
   width: 100%; }
-
-button {
-  border: none;
-  margin: 0 10px 10px 10px; }
+  video::-webkit-media-controls {
+    display: none !important; }
 
 /* CSS Document */
 /* CSS Document */
-.video-container {
+#video-container {
   position: relative;
   margin: 0 auto;
   left: 0;
   top: 0;
   width: 100%; }
 
+/* Video Controls */
+/* Main control div*/
 #buttonbar {
   display: none;
   justify-content: space-between;
+  align-items: baseline;
   position: absolute;
   width: 100%;
   left: 0;
-  bottom: 5px; }
+  bottom: 0;
+  background-color: #222023; }
+  @media (min-width: 769px) {
+    #buttonbar {
+      font-size: 1.5em; } }
+
+.fa-play,
+.fa-pause,
+.fa-volume-up,
+.fa-volume-off,
+.fa-cc,
+.fa-expand,
+.fa-compress {
+  font-size: 1.2em;
+  margin-top: 5px;
+  margin-left: 15px;
+  color: #F0D2B0; }
+
+.fa-expand,
+.fa-compress {
+  margin-right: 20px; }
+
+.fa-play-circle-o {
+  display: none;
+  font-size: 4em;
+  position: absolute;
+  top: 40%;
+  left: 42%;
+  z-index: 2147483647;
+  color: #F0D2B0; }
+  @media (min-width: 769px) {
+    .fa-play-circle-o {
+      left: 45%;
+      font-size: 7em; } }
+
+#video-timer {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #F0D2B0;
+  margin-left: 15px;
+  margin-right: auto; }
+
+/*  Caption Styles*/
+#captions {
+  position: absolute;
+  height: 40px;
+  left: 10%;
+  width: 80%;
+  bottom: 52px;
+  font-size: 1em;
+  font-weight: 700;
+  text-align: center;
+  color: #F0D2B0;
+  border-radius: 5px;
+  background-color: #222023; }
+  @media (min-width: 769px) {
+    #captions {
+      left: 25%;
+      bottom: 65px;
+      width: 50%;
+      height: 55px;
+      font-size: 1.5em; } }
 
 .caption-container {
+  font-size: 1.2em;
+  font-family: "Raleway", sans-serif;
+  line-height: 1.6;
+  color: #F5A18E;
   margin: 0 auto;
-  width: 80%; }
+  width: 80%;
+  border-radius: 10px;
+  background-color: #575059; }
+  .caption-container p {
+    padding: 1em; }
 
-/* Video Controls */
+.toggle-hidden {
+  display: none; }
+
+/* Extends */
+/* Progress Element Styles */
 #progress-bar {
   display: none;
   position: absolute;
   left: 0;
-  bottom: 40px;
-  width: 100%; }
-  @media (min-width: 1100px) {
+  bottom: 30px;
+  width: 100%;
+  max-height: .2em;
+  border-radius: 5px; }
+  @media (min-width: 769px) {
     #progress-bar {
-      bottom: 55px; } }
+      bottom: 38px; } }
 
-#play-pause {
-  background: no-repeat center url(../img/play-icon.png); }
+progress[value] {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Get rid of default border in Firefox. */
+  border: none;
+  /* Dimensions */
+  width: 250px;
+  height: 20px; }
 
-#video-timer {
-  color: #fff;
-  margin-left: 10px;
-  margin-right: auto; }
+progress::-moz-progress-bar {
+  background-color: #F5A18E;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+  border-radius: 5px; }
 
-#volume-toggle {
-  background: no-repeat center url(../img/volume-on-icon.png); }
+progress[value]::-moz-progress-bar {
+  background-image: -moz-linear-gradient(135deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -moz-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)), -moz-linear-gradient(left, #F0D2B0, #F5A18E);
+  border-radius: 5px;
+  background-size: 35px 20px, 100% 100%, 100% 100%; }
 
-#fullscreen-toggle {
-  background: no-repeat center url(../img/fullscreen-icon.png); }
+progress[value]::-webkit-progress-bar {
+  background-color: #222023;
+  height: .5em;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset; }
 
-.current-caption {
-  color: blue; }
-
-::cue {
-  background-color: rgba(255, 255, 255, 0);
-  padding-top: 5px;
-  font-size: .55em; }
-
-/* Extends */
-#play-pause, #volume-toggle, #fullscreen-toggle {
-  height: 1em;
-  width: 1em;
-  background-size: contain; }
+progress[value]::-webkit-progress-value {
+  background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)), -webkit-linear-gradient(left, #F0D2B0, #F5A18E);
+  border-radius: 2px;
+  background-size: 35px 20px, 100% 100%, 100% 100%; }
 
 /*# sourceMappingURL=app.css.map */

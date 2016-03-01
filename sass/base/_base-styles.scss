@@ -1,15 +1,17 @@
 /* Base Styles */
 
-
-div {
-  line-height: $line-height; 
+body {
+  background-color: map-get($color-scheme, main-background);
+  height: 100vh;
 }
 
 video {
-  width: 100%; 
+  height: 100%;
+  width: 100%;
+  &::-webkit-media-controls {
+    display:none !important;
+  }
 }
 
-button {
-  border: none;
-  margin: 0 10px 10px 10px;
-}
+
+
