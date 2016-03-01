@@ -8,4 +8,16 @@
   width: 100%;
 }
 
-
+.transcript-container {
+  font-size: $font-size--regular;
+  font-family: $font-family--primary;
+  line-height: $line-height;
+  color: map-get($color-scheme, text);
+  margin: 0 auto;
+  width: 80%;
+  border-radius: 10px;
+  background-color: map-get($color-scheme, transcript-div);
+  & p {
+    padding: 1em;
+  }
+}

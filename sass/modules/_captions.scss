@@ -3,10 +3,12 @@
 
 #captions {
   position: absolute;
-  height: 40px;
+  align-content: center;
+  align-items:center;
+  height: auto;
   left: 10%;
-  width: 80%;
-  bottom:  52px;
+  width: 75%;
+  bottom:  36px;
   font-size: $font-size--small; 
   font-weight: $font-weight--bold;
   text-align: center;
@@ -15,26 +17,9 @@
   background-color: map-get($color-scheme, caption-div); 
   @include mq(medium) {
     left: 25%;
-    bottom: 65px;
+    bottom: 46px;
     width: 50%;
-    height: 55px;
     font-size: $font-size--large;
-  }
-}
-
-
-
-.caption-container {
-  font-size: $font-size--regular;
-  font-family: $font-family--primary;
-  line-height: $line-height;
-  color: map-get($color-scheme, text);
-  margin: 0 auto;
-  width: 80%;
-  border-radius: 10px;
-  background-color: map-get($color-scheme, transcript-div);
-  & p {
-    padding: 1em;
   }
 }
 

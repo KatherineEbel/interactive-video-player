@@ -39,6 +39,7 @@ $(document).ready(function() {
   .mouseleave(function() {
     $buttonBar.fadeOut(400);
   });
+  
   //------------------------------------------------
   // Progress Bar
   //------------------------------------------------
@@ -53,6 +54,7 @@ $(document).ready(function() {
   $video.on('timeupdate', function() {
     setUpProgressBarForVideo(this);
     if ($video[0].ended) {
+      $captions.fadeOut(400);
       $playLarge.fadeIn(600);
     }
     // firefox not supporting oncuechange currently, so use appropriate function for diff browsers
@@ -65,9 +67,12 @@ $(document).ready(function() {
 
   /* Progress seek */
   $progress.on('click', function(e) {
-    console.log("clicked");
+    $playLarge.fadeOut(400);
     var position = (e.pageX - this.offsetLeft) / this.offsetWidth;
     $video[0].currentTime = position * $video[0].duration;
+    if ($video[0].paused) {
+      toggleIcon($playPause, 'fa-pause', 'fa-play');
+    }
   });
 
   // setup values for progress bar
@@ -79,15 +84,6 @@ $(document).ready(function() {
     } else {
       $progress[0].value = video.currentTime;
     }
-  }
-
-  /* Restarts video*/
-  function resetVideo() {
-    $playLarge.fadeOut(600);
-    $video[0].currentTime = 0;
-    setUpProgressBarForVideo($video[0]);
-    $captions.css('display', 'none');
-    $playPause.togglePlay();
   }
 
   //------------------------------------------------
@@ -114,33 +110,37 @@ $(document).ready(function() {
   });
   
   $playLarge.on("click", function() {
-      if ($video[0].ended) {
-        resetVideo();
-      }
+     resetVideo();
   });
+  
+  /* Restarts video*/
+  function resetVideo() {
+    $playLarge.fadeOut(600);
+    $video[0].load();
+    setUpProgressBarForVideo($video[0]);
+    toggleIcon($playPause, 'fa-pause', 'fa-play');
+  }
+  
+  
 
   /* Mute sound and change button images for play/pause*/
   function togglePlay() {
       if ($video[0].paused) {
         $video[0].play();
-        $playPause.removeClass('fa-play');
-        $playPause.addClass('fa-pause');
+        toggleIcon($playPause, 'fa-play', 'fa-pause');
       } else {
         $video[0].pause();
-        $playPause.removeClass('fa-pause');
-        $playPause.addClass('fa-play');
+        toggleIcon($playPause, 'fa-pause', 'fa-play');
       }
   }
 
   /* volume clicked */
   $volumeToggle.on("click", function() {
     if ($video.prop("muted")) {
-      $volumeToggle.removeClass('fa-volume-off');
-      $volumeToggle.addClass('fa-volume-up');
+      toggleIcon($volumeToggle, 'fa-volume-off', 'fa-volume-up');
       $video.prop("muted", false);
     } else {
-      $volumeToggle.removeClass('fa-volume-up');
-      $volumeToggle.addClass('fa-volume-off');
+      toggleIcon($volumeToggle, 'fa-volume-up', 'fa-volume-off');
       $video.prop("muted", true);
     }
   });
@@ -187,7 +187,12 @@ $(document).ready(function() {
   // Handle captions Button click
 
   $captionsToggle.on('click', function() {
-    $captions.toggleClass('toggle-hidden');
+    if ($textTrack[0].track.activeCues.length > 0) {
+      $captions.toggleClass('toggle-hidden');
+    }
+    if ($(this).not('toggle-hidden')) {
+       $(this).css("display", "flex");
+    }
   });
 
   // update video-time when span videoent clicked
@@ -206,7 +211,6 @@ $(document).ready(function() {
 
   /* Fullscreen clicked */
   $fullScreenToggle.on( "click", function() {
-    fullScreenChange();
     toggleFullScreen();
   });
   
@@ -237,18 +241,23 @@ $(document).ready(function() {
     }
   }
   
-  function fullScreenChange() {
-    if (!document.fullscreenElement &&
-        !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {
-      $fullScreenToggle.removeClass('fa-expand');
-      $fullScreenToggle.addClass('fa-compress');
+  // listen for full screen change to toggle full screen icon
+  $(document).on('webkitfullscreenchange', function() {
+    toggleIcon($fullScreenToggle, 'fa-expand', 'fa-compress');
+  });
+  
+  $(document).on('mozfullscreenchange', function() {
+    console.log("mozfullscreen event");
+    toggleIcon($fullScreenToggle, 'fa-expand', 'fa-compress');
+  });
+  
+  function toggleIcon(icon, firstClass, secondClass) {
+    if (icon.hasClass(firstClass)) {
+      icon.removeClass(firstClass);
+      icon.addClass(secondClass);
     } else {
-      $fullScreenToggle.removeClass('fa-compress');
-      $fullScreenToggle.addClass('fa-expand');
+      icon.removeClass(secondClass);
+      icon.addClass(firstClass);
     }
   }
-  
-
-    
-
 });

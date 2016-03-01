@@ -396,6 +396,18 @@ video {
   top: 0;
   width: 100%; }
 
+.transcript-container {
+  font-size: 1.2em;
+  font-family: "Raleway", sans-serif;
+  line-height: 1.6;
+  color: #F5A18E;
+  margin: 0 auto;
+  width: 80%;
+  border-radius: 10px;
+  background-color: #575059; }
+  .transcript-container p {
+    padding: 1em; }
+
 /* Video Controls */
 /* Main control div*/
 #buttonbar {
@@ -450,10 +462,12 @@ video {
 /*  Caption Styles*/
 #captions {
   position: absolute;
-  height: 40px;
+  align-content: center;
+  align-items: center;
+  height: auto;
   left: 10%;
-  width: 80%;
-  bottom: 52px;
+  width: 75%;
+  bottom: 36px;
   font-size: 1em;
   font-weight: 700;
   text-align: center;
@@ -463,22 +477,9 @@ video {
   @media (min-width: 769px) {
     #captions {
       left: 25%;
-      bottom: 65px;
+      bottom: 46px;
       width: 50%;
-      height: 55px;
       font-size: 1.5em; } }
-
-.caption-container {
-  font-size: 1.2em;
-  font-family: "Raleway", sans-serif;
-  line-height: 1.6;
-  color: #F5A18E;
-  margin: 0 auto;
-  width: 80%;
-  border-radius: 10px;
-  background-color: #575059; }
-  .caption-container p {
-    padding: 1em; }
 
 .toggle-hidden {
   display: none; }
@@ -495,7 +496,7 @@ video {
   border-radius: 5px; }
   @media (min-width: 769px) {
     #progress-bar {
-      bottom: 38px; } }
+      bottom: 40px; } }
 
 progress[value] {
   /* Reset the default appearance */
@@ -506,7 +507,7 @@ progress[value] {
   border: none;
   /* Dimensions */
   width: 250px;
-  height: 20px; }
+  height: 25px; }
 
 progress::-moz-progress-bar {
   background-color: #F5A18E;
