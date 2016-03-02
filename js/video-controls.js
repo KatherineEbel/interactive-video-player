@@ -28,7 +28,6 @@ $(document).ready(function() {
   if (supportsMp4 || supportsOgg) {
     $video.removeAttr('controls');
     $buttonBar.css('display','flex');
-    /*$progress.css('display','block');*/
   } else {
     $textTrack.attr('kind', 'captions');
   }
@@ -196,7 +195,7 @@ $(document).ready(function() {
     }
   });
 
-  // update video-time when span videoent clicked
+  // update video-time when span element clicked
   $('#transcript span').on('click', function() {
     console.log("clicked");
     var spanIdString = this.id;
@@ -248,7 +247,6 @@ $(document).ready(function() {
   });
   
   $(document).on('mozfullscreenchange', function() {
-    console.log("mozfullscreen event");
     toggleIcon($fullScreenToggle, 'fa-expand', 'fa-compress');
   });
   
