@@ -10,7 +10,7 @@ $(document).ready(function() {
   var $buttonBar = $("#buttonbar");
   var $progress = $("#progress-bar");
   var $playPause = $("#play-pause");
-  var $playLarge = $(".fa-play-circle-o");
+  var $repeat = $(".fa-repeat");
   var $videoTimer = $("#video-timer");
   var $volumeToggle = $("#volume-toggle");
   var $fullScreenToggle = $("#fullscreen-toggle");
@@ -55,7 +55,7 @@ $(document).ready(function() {
     setUpProgressBarForVideo(this);
     if ($video[0].ended) {
       $captions.fadeOut(400);
-      $playLarge.fadeIn(600);
+      $repeat.fadeIn(600);
     }
     // firefox not supporting oncuechange currently, so use appropriate function for diff browsers
     if ($textTrack[0].track.oncuechange !== undefined) {
@@ -67,7 +67,7 @@ $(document).ready(function() {
 
   /* Progress seek */
   $progress.on('click', function(e) {
-    $playLarge.fadeOut(400);
+    $repeat.fadeOut(400);
     var position = (e.pageX - this.offsetLeft) / this.offsetWidth;
     $video[0].currentTime = position * $video[0].duration;
     if ($video[0].paused) {
@@ -109,13 +109,13 @@ $(document).ready(function() {
     togglePlay();
   });
   
-  $playLarge.on("click", function() {
+  $repeat.on("click", function() {
      resetVideo();
   });
   
   /* Restarts video*/
   function resetVideo() {
-    $playLarge.fadeOut(600);
+    $repeat.fadeOut(600);
     $video[0].load();
     setUpProgressBarForVideo($video[0]);
     toggleIcon($playPause, 'fa-pause', 'fa-play');
