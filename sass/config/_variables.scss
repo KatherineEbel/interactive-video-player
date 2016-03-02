@@ -12,6 +12,7 @@ $font-weight--bold     : 700;
 
 $font-url--google        : 'https://fonts.googleapis.com/css?family=Raleway:400,600';
 $font-family--primary    : 'Raleway', sans-serif;
+$line-height: 1.6;
 
 // Import if Google Fonts URL is defined
 
@@ -36,14 +37,12 @@ $color-scheme: (
 );
 
 
-$line-height: 1.6;
 
-$control-height: 1em;
-$control-width: 1em;
+/* Control sizes */
+$progress-height: 10px;
 $control-size--medium: 4em;
 $control-size--large: 7em;
 
-$video-path: "video/";
 
 // Break points
 $brkpoint-md   :768px;
