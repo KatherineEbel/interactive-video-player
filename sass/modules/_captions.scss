@@ -8,7 +8,7 @@
   height: auto;
   left: 10%;
   width: 75%;
-  bottom:  36px;
+  bottom:  40px;
   font-size: $font-size--small; 
   font-weight: $font-weight--bold;
   text-align: center;
@@ -17,7 +17,7 @@
   background-color: map-get($color-scheme, caption-div); 
   @include mq(medium) {
     left: 25%;
-    bottom: 46px;
+    bottom: 50px;
     width: 50%;
     font-size: $font-size--large;
   }

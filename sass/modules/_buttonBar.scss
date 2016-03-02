@@ -1,11 +1,12 @@
-/* Video Controls */
+/******************************
+  Video controls
+******************************/
 
 
 /* Main control div*/
 #buttonbar {
   display: none;
-  justify-content: space-between;
-  align-items: baseline;
+  flex-direction: column;
   position: absolute;
   width: 100%;
   left: 0;
@@ -16,6 +17,14 @@
   }
 }
 
+/* play button flex column */
+#controls {
+  display: flex;
+  align-items: baseline;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .fa-play,
 .fa-pause,
 .fa-volume-up,
@@ -24,7 +33,6 @@
 .fa-expand,
 .fa-compress {
   font-size: $font-size--regular;
-  margin-top: 5px;
   margin-left: 15px;
   color: map-get($color-scheme, transcript-text);
 }

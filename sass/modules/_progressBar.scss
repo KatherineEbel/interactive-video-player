@@ -1,16 +1,12 @@
 /* Progress Element Styles */
 
 #progress-bar {
-  display: none;
-  position: absolute;
-  left: 0;
-  bottom: 30px;
   width: 100%;
-  max-height: .2em;
-  border-radius: 5px;
-  @include mq(medium) {
-    bottom: 41px;
-  }
+  height: $progress-height;
+}
+
+progress {
+  background: map-get($color-scheme, caption-div); /* for firefox*/
 }
 
 progress[value] {
@@ -18,22 +14,17 @@ progress[value] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
-  
   /* Get rid of default border in Firefox. */
   border: none;
-  
-  /* Dimensions */
-  width: 250px;
-  height: 25px;
 }
 
 progress::-moz-progress-bar {
   background-color: map-get($color-scheme, text);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
-  border-radius: 5px;
 }
 
 progress[value]::-moz-progress-bar { 
+  height: $progress-height;
   background-image:
     -moz-linear-gradient(
       135deg, 
@@ -53,14 +44,12 @@ progress[value]::-moz-progress-bar {
       $rose-bud
     );
 
-  border-radius: 5px; 
   background-size: 35px 20px, 100% 100%, 100% 100%; 
 }
 
 progress[value]::-webkit-progress-bar {
   background-color: map-get($color-scheme, caption-div);
-  height: .5em;
-  border-radius: 5px;
+  height: $progress-height;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
 }
 
@@ -73,8 +62,6 @@ progress[value]::-webkit-progress-value {
 	                           rgba(255, 255, 255, .25),
 	                           rgba(0, 0, 0, .25)),
 	   -webkit-linear-gradient(left, $pancho, $rose-bud);
-
-    border-radius: 2px;
     background-size: 35px 20px, 100% 100%, 100% 100%;
 }
 

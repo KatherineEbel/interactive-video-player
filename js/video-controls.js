@@ -8,6 +8,7 @@ $(document).ready(function() {
   var $video = $("#video");
   var $videoContainer = $("#video-container");
   var $buttonBar = $("#buttonbar");
+  var $controls = $("#controls");
   var $progress = $("#progress-bar");
   var $playPause = $("#play-pause");
   var $repeat = $(".fa-repeat");
@@ -27,17 +28,17 @@ $(document).ready(function() {
   if (supportsMp4 || supportsOgg) {
     $video.removeAttr('controls');
     $buttonBar.css('display','flex');
-    $progress.css('display','block');
+    /*$progress.css('display','block');*/
   } else {
     $textTrack.attr('kind', 'captions');
   }
 
   // only show controls when hovering over video
   $videoContainer.mouseenter(function() {
-    $buttonBar.fadeIn(400);
+    $controls.fadeIn(400);
   })
   .mouseleave(function() {
-    $buttonBar.fadeOut(400);
+    $controls.fadeOut(400);
   });
   
   //------------------------------------------------
