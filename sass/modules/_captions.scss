@@ -2,23 +2,15 @@
 
 
 #captions {
-  position: absolute;
-  align-content: center;
-  align-items:center;
+  text-align: center;
   height: auto;
-  left: 10%;
-  width: 75%;
-  bottom:  40px;
+  width: auto;
   font-size: $font-size--small; 
   font-weight: $font-weight--bold;
-  text-align: center;
   color: map-get($color-scheme, transcript-text);
   border-radius: 5px;
   background-color: map-get($color-scheme, caption-div); 
   @include mq(medium) {
-    left: 25%;
-    bottom: 50px;
-    width: 50%;
     font-size: $font-size--large;
   }
 }
