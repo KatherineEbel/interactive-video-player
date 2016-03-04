@@ -386,7 +386,6 @@ body {
   height: 100vh; }
 
 video {
-  height: 100%;
   width: 100%; }
   video::-webkit-media-controls {
     display: none !important; }
@@ -396,6 +395,7 @@ video {
 #video-container {
   position: relative;
   margin: 0 auto;
+  text-align: center;
   left: 0;
   top: 0;
   width: 100%; }

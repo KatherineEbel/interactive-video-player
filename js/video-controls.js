@@ -25,6 +25,7 @@ $(document).ready(function() {
   // Setup Controls
   //------------------------------------------------
 
+  /* Use stock controls if custom not supported*/
   if (supportsMp4 || supportsOgg) {
     $video.removeAttr('controls');
     $buttonBar.css('display','flex');
@@ -54,7 +55,9 @@ $(document).ready(function() {
   $video.on('timeupdate', function() {
     setUpProgressBarForVideo(this);
     if ($video[0].ended) {
-      $captions.fadeOut(400);
+      if ($captions.css("display") !== "none") {
+        $captions.toggleClass('toggle-hidden');
+      }
       $repeat.fadeIn(600);
     }
     // firefox not supporting oncuechange currently, so use appropriate function for diff browsers
@@ -70,9 +73,6 @@ $(document).ready(function() {
     $repeat.fadeOut(400);
     var position = (e.pageX - this.offsetLeft) / this.offsetWidth;
     $video[0].currentTime = position * $video[0].duration;
-    if ($video[0].paused) {
-      toggleIcon($playPause, 'fa-pause', 'fa-play');
-    }
   });
 
   // setup values for progress bar
@@ -113,7 +113,7 @@ $(document).ready(function() {
      resetVideo();
   });
   
-  /* Restarts video*/
+  /* Restarts video and updates controls*/
   function resetVideo() {
     $repeat.fadeOut(600);
     $video[0].load();
@@ -189,9 +189,7 @@ $(document).ready(function() {
   $captionsToggle.on('click', function() {
     if ($textTrack[0].track.activeCues.length > 0) {
       $captions.toggleClass('toggle-hidden');
-    }
-    if ($(this).not('toggle-hidden')) {
-       $(this).css("display", "flex");
+
     }
   });
 
@@ -215,7 +213,6 @@ $(document).ready(function() {
   });
   
   function toggleFullScreen() {
-   /* var video = $video[0];*/
    var videoDiv = document.getElementById('video-container');
     if (!document.fullscreenElement &&
         !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {
